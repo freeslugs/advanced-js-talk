@@ -135,51 +135,53 @@ setTimeout(printSomething, 1000);
 
 Exactly! We aren't <i>calling</i> `printSomething`, we're only defining it above, and passing it into `setTimeout` as a param. `setTimeout` will call the function. 
 
-So let's continue with the code execution. Once it hits line 2, it'll call the setTimeout function and skip all the way to line 5. And since it's a for loop, it'll increment i and return to line 2.
+So let's continue with the code execution. Once it hits line 2, it'll call the setTimeout function and skip all the way to line 5. And since it's a for loop, it'll increment i and return to line 2. It'll keep repeating until `i == 5`. 
 
-It'll keep repeating until i == 5. So who executes our anonymous function?
-setTimeout does. Although it's difficult to see in the native code, essentially when setTimeout finishes (it waits 1000 ms), it will call the function we just passed in.
+So who executes our anonymous function (or the `printSomething` function)?
+`setTimeout` does. Although it's difficult to see in the native code, essentially when `setTimeout` completes (it waits 1000 ms), it will call the function we just passed in.
 
-Our anonymous function is called a callback function. /* add bold */
+Our anonymous function then, is called a <b>callback function.</b>
 
 So let’s look at another example of a callback function. This time we’ll add some jQuery too:
 
 ```javascript
 $( "#target" ).click(function() {
-	alert( "Handler for .click() called." );
+	alert("Handler for .click() called");
 });
 ```
+In this snippet of code, when you click on an element with id "target", it will alert "Handler for .click() called".
 
-In this snippet of code, when you click on an element with id "target," it will alert "...".
-
-Another example of a callback function is the jQuery GET request:
+Another example of a callback function is the jQuery `GET` request:
 
 ```javascript
-$.get(“http://www.google.com”, function(data) {
+$.get("http://www.google.com", function(data) {
 	console.log(data);
 });
 ```
 
+Once it completes the get request, it'll call our anonymous function, which will `console.log` the data returned from the request.
+
+Now let's make our own callback function.
+Let’s say we want to make a function that retrieves data from an API, modifies the data, and returns it.
+
+Here's the wrong way to do it:
+
+```javascript
+function getIP() {
+	$.get("http://ip.jsontest.com", function(data) {
+		var result = data.ip;
+		return result;
+     	});
+}
+```
+
+function(data) {
+	var result = data.ip;
+	return result;
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+If we were to try it out, we'd see that it returns undefined. That’s because `$.get` is asynchronous, so let's try again with a callback function. 
 
 
 
