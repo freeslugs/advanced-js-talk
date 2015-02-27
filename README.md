@@ -327,16 +327,68 @@ For the purposes of this talk, we are going to use the Q library.
 
 Promises have 3 key properties:
 
-1) then() - this function is called after the promise resolves. Using this function, we can chain together asynchronous functions seamlessly with promises.
-2) resolve() - the promise succeeds and returns a value.
-3) reject() - the promise fails and returns an error.
+1. then() - this function is called after the promise resolves. Using this function, we can chain together asynchronous functions seamlessly with promises.
+2. resolve() - the promise succeeds and returns a value.
+3. reject() - the promise fails and returns an error.
 
 How to use a promise with an asynchronous function:
 
-1) We first obtain a promise object by calling Q.defer().
-2) We do some asynchronous processes (e.g. HTTP GET request).
-3) We return the promise at the end of the function.
-4) After the asynchronous processes finish, we either resolve() or reject() the promise. We do this generally in the callback function of the asynchronous function.
+1. We first obtain a promise object by calling Q.defer().
+2. We do some asynchronous processes (e.g. HTTP GET request).
+3. We return the promise at the end of the function.
+4. After the asynchronous processes finish, we either resolve() or reject() the promise. We do this generally in the callback function of the asynchronous function.
 
+In order to demonstrate how to do this, we'll build an app that makes 3 GET requests using promises.
 
+http://jsfiddle.net/mLgzx196/
+
+```javascript
+// src:  https://gist.github.com/jeffcogswell/8257755
+ 
+function one() {
+    var deferred = Q.defer();
+    console.log("Starting one's's ajax");
+    $.ajax( {
+        url: 'http://ip.jsontest.com/',
+        success: function() {
+            console.log('Finished with one. Ready to call next.');
+            deferred.resolve();
+            console.log("hello");
+            console.log(deferred);
+        }
+    });
+    return deferred.promise;
+}
+ 
+function two() {
+    var deferred = Q.defer();
+    console.log("Starting two's ajax");
+    $.ajax( {
+        url: 'http://ip.jsontest.com/',
+        success: function() {
+            console.log('Finished with two. Ready to call next.');
+            deferred.resolve();
+        }
+    });
+    return deferred.promise;
+}
+ 
+function three() {
+    var deferred = Q.defer();
+    console.log("Starting three's ajax");
+    $.ajax( {
+        url: 'http://ip.jsontest.com/',
+        success: function() {
+            console.log('Finished with three. Ready to call next if there is one.');
+            deferred.resolve();
+        }
+    });
+    return deferred.promise;
+}
+ 
+one()
+    .then(two)
+    .then(three)
+    .done();
+```
 
