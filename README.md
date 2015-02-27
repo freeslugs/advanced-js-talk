@@ -4,6 +4,9 @@
 ## Table of Contents
 /* todo need to link the table of contents */
 - asynchronous functions
+  - synchronous functions
+  - asynchronous functions
+  - callbacks
 - promises
 - the async lib
  
@@ -22,9 +25,9 @@ for(var i = 0; i < 5; i++) {
 }
 ```
 
-What does this produce?  
+Let's run it in the javascript console and see what it produces. 
 
-Is it this:
+What we want: 
 
 ```
 0
@@ -34,9 +37,7 @@ Is it this:
 4
 ```
 
-/* Maybe something here */
-
-Actually, it produces:
+In actuality it produces:
 
 ```
 5  
@@ -48,7 +49,7 @@ Actually, it produces:
 
 What the heck?
 
-setTimeout is an asynchronous function.
+<b>setTimeout is an asynchronous function.</b>
 
 >asynchronous (adj.)  
 >	1. not occurring at the same time.  
@@ -57,14 +58,12 @@ setTimeout is an asynchronous function.
 
 That doesn't really help.
 
-Essentially, asynchronous means a function takes unpredictable time to complete. 
+Essentially, asynchronous means <i>a function takes unpredictable time to complete.</i> 
 So in our example, the for loop executed and completed before the setTimeout function even began. We need to wait for the console.log before we increment the i. How can we fix that?
 
-Callbacks.
+## Synchronous Functions
 
-Callbacks are functions. They are passed in to other functions as parameters. That might not make sense just yet, but we'll come back to it in a minute.
-
-How are functions defined? How do we return values?
+How are functions normally defined? How do we return values?
 
 Here's one way:
 
@@ -88,17 +87,21 @@ How do we call functions?
 
 ```javascript
 hello("this is a string");
+hello();
 ```
 
-This is an anonymous function. It is not named.
+<i>Fun fact:</i> This is an anonymous function. It is not named.
 
 ```javascript
 function() {
 	// do something
+	console.log("hello world");
 }
 ```
 
 Ok. So how does this differ from asynchronous functions?
+
+## Asynchronous functions & Callbacks
 
 Well, it’s key to understand how javascript executes code. Let’s take a look at our first example. Line numbers have been added.
 
@@ -111,9 +114,9 @@ Well, it’s key to understand how javascript executes code. Let’s take a look
 ```
 
 So first it’ll hit line 1. i is initially defined as 0, and it’ll start the loop. 
-Next it’ll hit line 2. Wait a second.
+Next it’ll hit line 2 and wait a second (1000 milliseconds).
 
-Since setTimeout is an asynchronous funciton, we’re passing in to it an anonymous function which is defined inline. That function is:
+Since setTimeout is an asynchronous function, we’re actually passing in to it an <i>anonymous function</i> which is defined inline. That function is:
 
 ```javascript
 function() {
@@ -121,14 +124,16 @@ function() {
 }
 ```
 
-Now remember how functions are called?
+This code can also be written without an anonymous function. We'll name the previous anonymous function `printSomething`.
 
 ```javascript
-hello("this is a string");
+function printSomething() { 
+	console.log(i); 
+}
+setTimeout(printSomething, 1000);
 ```
 
-/* clear up what "it's" is and what moment it is */
-Exactly! It's not calling the function at the moment, it's defining the function!
+Exactly! We aren't <i>calling</i> `printSomething`, we're only defining it above, and passing it into `setTimeout` as a param. `setTimeout` will call the function. 
 
 So let's continue with the code execution. Once it hits line 2, it'll call the setTimeout function and skip all the way to line 5. And since it's a for loop, it'll increment i and return to line 2.
 
