@@ -171,7 +171,7 @@ function getIP() {
 	$.get("http://ip.jsontest.com", function(data) {
 		var result = data.ip;
 		return result;
-     	});
+	});
 }
 ```
 
@@ -181,8 +181,162 @@ function(data) {
 }
 
 
-If we were to try it out, we'd see that it returns undefined. That’s because `$.get` is asynchronous, so let's try again with a callback function. 
+If we were to try it out, we'd see that it returns undefined. That’s because `$.get` is asynchronous, so let's try again using a callback function. 
 
+```javascript
+function getIP(callback) {
+	$.get("http://ip.jsontest.com", function(data) {
+		var result = data.ip;
+		callback(result):
+	});
+}
+```
+
+To call this function:
+
+```javascript
+getIP(function(ip) {
+	console.log(ip);
+});
+```
+
+Output: `127.0.0.1`
+
+Cool!
+
+There are some benefits to using asynchronous functions. To demonstrate this, we'll build an app that retrieves data from an API and displays it to the user.
+
+Let's begin with a basic HTML page:
+
+```html
+<html>
+<script></script>
+<body>
+</body>
+</html>
+```
+
+Now let's make a request to the API and display the data:
+
+```html
+<html>
+<script>
+// when the page is loaded
+$( document ).ready(function() {
+	$.get("https://api.github.com/repos/octokit/octokit.rb", function(data) {
+		$("#github-repo-name").text(data.full_name + " – " + data.description);
+		$("#github-repo-url").text(data.html_url);
+		$("#github-repo-url").attr("href", data.html_url);
+	});
+});
+</script>
+<body>
+	<p id="github-repo-name"></p>
+	<a id="github-repo-url"></a>
+</body>
+</html>
+```
+
+Now let's show a loading gif, and then hide it when the data appears:
+
+```html
+<html>
+<script>
+	// when the page is loaded
+	$( document ).ready(function() {
+		$.get("https://api.github.com/repos/octokit/octokit.rb", function(data) {
+			$(“#loading-gif”).hide();
+			$("#github-repo-name").text(data.full_name + " – " + data.description);
+			$("#github-repo-url").text(data.html_url);
+			$("#github-repo-url").attr("href", data.html_url);
+		});
+	});
+</script>
+<body>
+	<img id="loading-gif" src="http://www.ajaxload.info/cache/FF/FF/FF/00/00/00/1-0.gif">
+	<p id="github-repo-name"></p>
+	<a id="github-repo-url"></a>
+</body>
+</html>
+```
+
+To emphasize this loading effect, we can add a small setTimeout:
+
+```html
+// when the page is loaded
+<html>
+<script>
+	$( document ).ready(function() {
+    		$.get("https://api.github.com/repos/octokit/octokit.rb", function(data) {
+        		setTimeout(function(){ 
+            			$("#loading-gif").hide();
+            			$("#github-repo-name").text(data.full_name + " – " + data.description);
+            			$("#github-repo-url").text(data.html_url);
+            			$("#github-repo-url").attr("href", data.html_url);
+            		}, 1000);
+        	});
+    	});
+</script>
+<body>
+	<img id="loading-gif" src="http://www.ajaxload.info/cache/FF/FF/FF/00/00/00/1-0.gif">
+	<p id="github-repo-name"></p>
+	<a id="github-repo-url"></a>
+</body>
+</html>
+```
+
+So as you can see, callbacks are definitely useful. However, one problem that exists is <b>callback hell.</b>
+
+Code tends to shift rightwards instead of downwards: [Source: callbackhell.com](callbackhell.com)
+
+```javascript
+fs.readdir(source, function(err, files) {
+	if (err) {
+		console.log('Error finding files: ' + err)
+	} else {
+		files.forEach(function(filename, fileIndex) {
+			console.log(filename)
+			gm(source + filename).size(function(err, values) {
+				if (err) {
+					console.log('Error identifying file size: ' + err)
+				} else {
+					console.log(filename + ' : ' + values)
+					aspect = (values.width / values.height)
+					widths.forEach(function(width, widthIndex) {
+						height = Math.round(width / aspect)
+						console.log('resizing ' + filename + 'to ' + height + 'x' + height)
+						this.resize(width, height).write(destination + 'w' + width + '_' + filename, function(err) {
+							if (err) console.log('Error writing file: ' + err)
+						})
+					}.bind(this))
+				}
+			})
+		})
+	}
+})
+```
+
+There are a few ways to get around this. One way is promises.
+
+# Promises
+
+"A promise is an object that represents the return value or the thrown exception that the function may eventually provide."
+[Source: https://github.com/kriskowal/q](https://github.com/kriskowal/q)
+
+For the purposes of this talk, we are going to use the Q library.
+
+Promises have 3 key properties:
+
+1) then() - this function is called after the promise resolves. Using this function, we can chain together asynchronous functions seamlessly with promises.
+2) resolve() - the promise succeeds and returns a value.
+3) reject() - the promise fails and returns an error.
+
+How to use a promise with an asynchronous function:
+
+1) We first obtain a promise object by calling Q.defer().
+2) We do some asynchronous processes (e.g. HTTP GET request).
+3) We return the promise at the end of the function.
+4) After the asynchronous processes finish, we either resolve() or reject() the promise. We do this generally in the callback function of the asynchronous function.
 
 
 
