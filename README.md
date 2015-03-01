@@ -351,6 +351,8 @@ Object {0: "0"} <br>
 
 So it iterates through the array and prints the objects we sent over in the http requests correctly. Super useful function over here. 
 
+We can also use promises to interact with asynchronous functions. 
+
 # Promises
 
 What is a promise? 
