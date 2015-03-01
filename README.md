@@ -430,4 +430,32 @@ one()
     .done();
 ```
 
+And let's check out the console:
+
+Starting one's ajax <br>
+Finished with one. Ready to call next. <br>
+Starting two's ajax <br>
+Finished with two. Ready to call next. <br>
+Starting three's ajax <br>
+Finished with three. Ready to call next if there is one. <br>
+
+As we can see, we were able to call the GET requests in order. We chain each function using the `then`. 
+
+We can also <i>reject</i> promises. Let's check out an example.
+
+http://jsfiddle.net/mLgzx196/1/
+
+So we see in the newly chained function, we have the same format as the previous functions but we instead reject the promise. Check out the console! 
+
+Starting one's ajax <br>
+Finished with one. Ready to call next. <br>
+Starting two's ajax <br>
+Finished with two. Ready to call next. <br>
+Starting three's ajax <br>
+Finished with three. Ready to call next if there is one. <br>
+oh no <br>
+Error: HELP! :( <br>
+
+So as you can see, when we reject the promise, it skips over the chained function and jumps straight to the catch function. And we were successfully able to pass the error as well. Awesome. 
+
 
