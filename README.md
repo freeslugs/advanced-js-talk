@@ -316,14 +316,48 @@ fs.readdir(source, function(err, files) {
 })
 ```
 
-There are a few ways to get around this. One way is promises.
+There are a few ways to get around this. One way is using the async library.
+
+# Async library
+
+[https://github.com/caolan/async](https://github.com/caolan/async)
+
+This library provides various functions that allow you to easily interact with asynchronous functions. For example, this library can help use create a simple async for loop (as we saw in our example earlier). 
+
+The function `async.eachSeries` iterates through an array. The beauty is that our asynchronous function waits until it finishes before going onto the next element in the array. So let's see how we'd implement it with our first example.
+
+http://jsfiddle.net/mLgzx196/7/
+
+As we can see, once the `setTimeout` function finishes, we call the `callback`, which triggers the next iteration. And check out the console. Each second, it prints out the integer. Sweet! 
+
+Now one more thing. Let’s say we want to run all the functions at the same time, but preserve the variables. So with our example, after 1 second, it’d print `1,2,3,4,5`. 
+
+Well, async has another awesome function called `each`, which will call each of the functions immediately, without waiting for them to finish, but still preserve the callback functions associated. Let's take a look at our example. 
+
+http://jsfiddle.net/mLgzx196/8/
+
+Now let's take a look at a real life example of how we might use the async library. 
+
+http://jsfiddle.net/mLgzx196/9/
+
+We’re calling a get request for each i, which returns an object. Now what’s so cool is that javascript calls these async functions, but preserves the variables, as well as the callback functions for each get request. What that means is that’ll console log the correct data for each request - check out the console. Note: it doesn’t preserve the order because of the nature of http requests, the server we’re pinging, etc (contrary to the previous example). 
+
+Object {5: "25"} <br>
+Object {3: "9"} <br>
+Object {4: "16"} <br>
+Object {1: "1"} <br>
+Object {2: "4"} <br>
+Object {0: "0"} <br>
+
+So it iterates through the array and prints the objects we sent over in the http requests correctly. Super useful function over here. 
 
 # Promises
 
-"A promise is an object that represents the return value or the thrown exception that the function may eventually provide."
+What is a promise? 
+> "A promise is an object that represents the return value or the thrown exception that the function may eventually provide."
 [Source: https://github.com/kriskowal/q](https://github.com/kriskowal/q)
 
-For the purposes of this talk, we are going to use the Q library.
+<i> For the purposes of this talk, we are going to use the Q library.</i>
 
 Promises have 3 key properties:
 
@@ -337,6 +371,8 @@ How to use a promise with an asynchronous function:
 2. We do some asynchronous processes (e.g. HTTP GET request).
 3. We return the promise at the end of the function.
 4. After the asynchronous processes finish, we either resolve() or reject() the promise. We do this generally in the callback function of the asynchronous function.
+
+<i>Note you can also create a promise using [Q.fcall](https://github.com/kriskowal/q#using-qfcall) </i>
 
 In order to demonstrate how to do this, we'll build an app that makes 3 GET requests using promises.
 
@@ -391,4 +427,5 @@ one()
     .then(three)
     .done();
 ```
+
 
