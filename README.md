@@ -2,11 +2,11 @@
 # Advanced JavaScript
  
 ## Table of Contents
-1.0 [Functions](#functions)  
-  1.1 [Synchronous Functions](#sync)  
-  1.2 [Asynchronous Functions & Callbacks](#async)  
-2.0 [Promises](#promises)
-3.0 [Async Library](#library)
+1. [Functions](#functions)  
+  1. [Synchronous Functions](#sync)  
+  2. [Asynchronous Functions & Callbacks](#async)  
+2. [Promises](#promises)  
+3. [Async Library](#library)  
  
 -------------------------
  
