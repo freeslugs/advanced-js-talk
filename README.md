@@ -592,8 +592,8 @@ promiseWhile(function () { return i < 5; }, function () {
 
 http://jsfiddle.net/mLgzx196/5/
 
-Ok. Let’s look at the second part first. While the condition `i < 5` is true, we run our function. And there’s our classic familiar `setTimeout`. Boom. 
+Ok. Let’s look at the second part first. While the condition `i < 5` is true, we run our function. And there’s our classic familiar `setTimeout`. 
 
 Now let’s check out the `promiseWhile` function. We have the same template with the deferred promises, and when the condition is met, we resolve the promise. Cool. 
 
-And we link the body function (which is pretty much a callback function) to the loop function. And there we have it, an async loop. Give yourselves a pat on the back. 
+And we link the body function (which is pretty much a callback function) to the loop function. And there we have it, an async for loop using promises. Give yourselves a pat on the back. 
