@@ -2,11 +2,11 @@
 # Advanced JavaScript
  
 ## Table of Contents
-1. [Functions](#functions)  
-  a. [Synchronous Functions](#sync)  
-  b. [Asynchronous Functions & Callbacks](#async)  
-2. [Promises](#promises)
-3. [Async Library](#library)
+1.0 [Functions](#functions)  
+  1.1 [Synchronous Functions](#sync)  
+  1.2 [Asynchronous Functions & Callbacks](#async)  
+2.0 [Promises](#promises)
+3.0 [Async Library](#library)
  
 -------------------------
  
@@ -60,7 +60,7 @@ Essentially, asynchronous means <i>a function takes unpredictable time to comple
 So in our example, the for loop executed and completed before the setTimeout function even began. We need to wait for the console.log before we increment the i. How can we fix that?
 
 <a id="sync"></a>
-## Synchronous Functions
+## 1.1 Synchronous Functions
 
 How are functions normally defined? How do we return values?
 
@@ -101,7 +101,7 @@ function() {
 Ok. So how does this differ from asynchronous functions?
 
 <a id="async"></a>
-## Asynchronous Functions & Callbacks
+## 1.2 Asynchronous Functions & Callbacks
 
 Well, it’s key to understand how javascript executes code. Let’s take a look at our first example. Line numbers have been added.
 
@@ -319,7 +319,7 @@ fs.readdir(source, function(err, files) {
 There are a few ways to get around this. One way is using the async library.
 
 <a id="library"></a>
-# Async Library
+# 2.0 Async Library
 
 [https://github.com/caolan/async](https://github.com/caolan/async)
 
@@ -388,7 +388,7 @@ So it iterates through the array and prints the objects we sent over in the http
 We can also use promises to interact with asynchronous functions. 
 
 <a id="promises"></a>
-# Promises
+# 3.0 Promises
 
 What is a promise? 
 > "A promise is an object that represents the return value or the thrown exception that the function may eventually provide."
