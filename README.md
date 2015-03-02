@@ -57,7 +57,7 @@ What the heck?
 That doesn't really help.
 
 Essentially, asynchronous means <i>a function takes unpredictable time to complete.</i> 
-So in our example, the for loop executed and completed before the setTimeout function even began. We need to wait for the console.log before we increment the i. How can we fix that?
+So in our example, the for loop executed and completed before the setTimeout function even began. We need to wait for the console.log before we increment the i. How can we fix that? Before we tackle this problem, let's review what synchronous functions are.
 
 <a id="sync"></a>
 ## 1.1 Synchronous Functions
@@ -98,12 +98,12 @@ function() {
 }
 ```
 
-Ok. So how does this differ from asynchronous functions?
+Ok. So how do asynchronous functions differ from synchronous ones?
 
 <a id="async"></a>
 ## 1.2 Asynchronous Functions & Callbacks
 
-Well, it’s key to understand how javascript executes code. Let’s take a look at our first example. Line numbers have been added.
+It’s key to understand how javascript executes code. Let’s take a look at our first example. Line numbers have been added.
 
 ```javascript
 1. 	for(var i = 0; i < 5; i++) {
@@ -116,7 +116,7 @@ Well, it’s key to understand how javascript executes code. Let’s take a look
 So first it’ll hit line 1. i is initially defined as 0, and it’ll start the loop. 
 Next it’ll hit line 2 and wait a second (1000 milliseconds).
 
-Since setTimeout is an asynchronous function, we’re actually passing in to it an <i>anonymous function</i> which is defined inline. That function is:
+Since `setTimeout` is an asynchronous function, we’re actually passing in to it an <i>anonymous function</i> which is defined inline. That function is:
 
 ```javascript
 function() {
@@ -135,7 +135,7 @@ setTimeout(printSomething, 1000);
 
 Exactly! We aren't <i>calling</i> `printSomething`, we're only defining it above, and passing it into `setTimeout` as a param. `setTimeout` will call the function. 
 
-So let's continue with the code execution. Once it hits line 2, it'll call the setTimeout function and skip all the way to line 5. And since it's a for loop, it'll increment i and return to line 2. It'll keep repeating until `i == 5`. 
+So let's continue with the code execution. Once it hits line 2, it'll call the `setTimeout` function and skip all the way to line 5. And since it's a for loop, it'll increment i and return to line 2. It'll keep repeating until `i == 5`. 
 
 So who executes our anonymous function (or the `printSomething` function)?
 `setTimeout` does. Although it's difficult to see in the native code, essentially when `setTimeout` completes (it waits 1000 ms), it will call the function we just passed in.
@@ -260,7 +260,7 @@ Now let's show a loading gif, and then hide it when the data appears:
 </html>
 ```
 
-To emphasize this loading effect, we can add a small setTimeout:
+To emphasize this loading effect, we can add a small `setTimeout`:
 
 ```html
 // when the page is loaded
@@ -596,4 +596,4 @@ Ok. Let’s look at the second part first. While the condition `i < 5` is true, 
 
 Now let’s check out the `promiseWhile` function. We have the same template with the deferred promises, and when the condition is met, we resolve the promise. Cool. 
 
-And we link the body function (which is pretty much a callback function) to the loop function. And there we have it, an async for loop using promises. Give yourselves a pat on the back. 
+And we link the body function (which is pretty much a callback function) to the loop function. And there we have it, an async for loop using promises. Give yourselves a pat on the back.
