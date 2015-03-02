@@ -326,6 +326,17 @@ This library provides various functions that allow you to easily interact with a
 
 The function `async.eachSeries` iterates through an array. The beauty is that our asynchronous function waits until it finishes before going onto the next element in the array. So let's see how we'd implement it with our first example.
 
+```javascript
+async.eachSeries([0,1,2,3,4,5], function(i, callback) {
+    setTimeout(function(){ 
+        console.log(i); 
+        callback();
+    }, 1000);
+}, function(err){
+    console.log('All files have been processed successfully');
+});
+```
+
 http://jsfiddle.net/mLgzx196/7/
 
 As we can see, once the `setTimeout` function finishes, we call the `callback`, which triggers the next iteration. And check out the console. Each second, it prints out the integer. Sweet! 
@@ -336,7 +347,29 @@ Well, async has another awesome function called `each`, which will call each of 
 
 http://jsfiddle.net/mLgzx196/8/
 
+```javascript
+async.each([0,1,2,3,4,5], function(i, callback) {
+    setTimeout(function(){ 
+        console.log(i); 
+        callback();
+    }, 5000);
+}, function(err){
+    console.log('All files have been processed successfully');
+});
+```
+
 Now let's take a look at a real life example of how we might use the async library. 
+
+```javascript
+async.each([0,1,2,3,4,5], function(i, callback) {
+    $.get("http://echo.jsontest.com/" + i + "/" + i*i, function(data) {
+        console.log(data); 
+        callback();
+    })
+}, function(err){
+    console.log('All files have been processed successfully');
+});
+```
 
 http://jsfiddle.net/mLgzx196/9/
 
@@ -443,6 +476,66 @@ As we can see, we were able to call the GET requests in order. We chain each fun
 
 We can also <i>reject</i> promises. Let's check out an example.
 
+```javascript
+function one() {
+    var deferred = Q.defer();
+    console.log("Starting one's's ajax");
+    $.ajax( {
+        url: 'http://ip.jsontest.com/',
+        success: function() {
+            console.log('Finished with one. Ready to call next.');
+            deferred.resolve();
+        }
+    });
+    return deferred.promise;
+}
+ 
+function two() {
+    var deferred = Q.defer();
+    console.log("Starting two's ajax");
+    $.ajax( {
+        url: 'http://ip.jsontest.com/',
+        success: function() {
+            console.log('Finished with two. Ready to call next.');
+            deferred.resolve();
+        }
+    });
+    return deferred.promise;
+}
+ 
+function three() {
+    var deferred = Q.defer();
+    console.log("Starting three's ajax");
+    $.ajax( {
+        url: 'http://ip.jsontest.com/',
+        success: function() {
+            console.log('Finished with three. Ready to call next if there is one.');
+            deferred.resolve();
+        }
+    });
+    return deferred.promise;
+}
+ 
+one()
+    .then(two)
+    .then(three)
+    .then(function () {
+        var deferred = Q.defer();
+        setTimeout(function () {
+            deferred.reject(new Error("HELP! :("));
+        }, 1000);
+        return deferred.promise;
+    })
+    .then(function () {
+        console.log("hey!? where am i?")
+    })
+    .catch(function (error) {
+        console.log('oh no'); 
+        console.log(error);
+    })
+    .done();
+```
+
 http://jsfiddle.net/mLgzx196/1/
 
 So we see in the newly chained function, we have the same format as the previous functions but we instead reject the promise. Check out the console! 
@@ -459,6 +552,41 @@ Error: HELP! :( <br>
 So as you can see, when we reject the promise, it skips over the chained function and jumps straight to the catch function. And we were successfully able to pass the error as well. Awesome. 
 
 And here's how'd we use promises in a for loop. 
+
+```javascript
+function promiseWhile(condition, body) {
+    var done = Q.defer();
+    function loop() {
+        // When the result of calling `condition` is no longer true, we are
+        // done.
+        if (!condition()) return done.resolve();
+        // Use `when`, in case `body` does not return a promise.
+        // When it completes loop again otherwise, if it fails, reject the
+        // done promise
+        body().then(loop);
+    }
+    // Start running the loop in the next tick so that this function is
+    // completely async. It would be unexpected if `body` was called
+    // synchronously the first time.
+    loop();
+    // The promise
+    return done.promise;
+}
+
+// Usage
+i = 0
+promiseWhile(function () { return i < 5; }, function () {
+    console.log(i);
+    i++;
+    var deferred = Q.defer();
+    setTimeout(function () {
+        deferred.resolve(new Error("HELP! :("));
+    }, 1000);
+    return deferred.promise;
+}).then(function () {
+    console.log("done");
+}).done();
+```
 
 http://jsfiddle.net/mLgzx196/5/
 
