@@ -2,18 +2,16 @@
 # Advanced JavaScript
  
 ## Table of Contents
-/* todo need to link the table of contents */
-- asynchronous functions
-  - synchronous functions
-  - asynchronous functions
-  - callbacks
-- promises
-- the async lib
+1. [Functions](#functions)  
+  a. [Synchronous Functions](#sync)  
+  b. [Asynchronous Functions & Callbacks](#async)  
+2. [Promises](#promises)
+3. [Async Library](#library)
  
 -------------------------
  
-<a id="async"></a>
-# 1.0 Asynchronous Functions
+<a id="functions"></a>
+# 1.0 Functions
 
 Let's look at a snippet of code:
 
@@ -61,6 +59,7 @@ That doesn't really help.
 Essentially, asynchronous means <i>a function takes unpredictable time to complete.</i> 
 So in our example, the for loop executed and completed before the setTimeout function even began. We need to wait for the console.log before we increment the i. How can we fix that?
 
+<a id="sync"></a>
 ## Synchronous Functions
 
 How are functions normally defined? How do we return values?
@@ -101,7 +100,8 @@ function() {
 
 Ok. So how does this differ from asynchronous functions?
 
-## Asynchronous functions & Callbacks
+<a id="async"></a>
+## Asynchronous Functions & Callbacks
 
 Well, it’s key to understand how javascript executes code. Let’s take a look at our first example. Line numbers have been added.
 
@@ -318,7 +318,8 @@ fs.readdir(source, function(err, files) {
 
 There are a few ways to get around this. One way is using the async library.
 
-# Async library
+<a id="library"></a>
+# Async Library
 
 [https://github.com/caolan/async](https://github.com/caolan/async)
 
@@ -386,6 +387,7 @@ So it iterates through the array and prints the objects we sent over in the http
 
 We can also use promises to interact with asynchronous functions. 
 
+<a id="promises"></a>
 # Promises
 
 What is a promise? 
