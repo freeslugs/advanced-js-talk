@@ -458,4 +458,12 @@ Error: HELP! :( <br>
 
 So as you can see, when we reject the promise, it skips over the chained function and jumps straight to the catch function. And we were successfully able to pass the error as well. Awesome. 
 
+And here's how'd we use promises in a for loop. 
 
+http://jsfiddle.net/mLgzx196/5/
+
+Ok. Let’s look at the second part first. While the condition “i < 5” is true, we run our function. And there’s our classic familiar setTimeout. Boom. 
+
+Now let’s check out the promiseWhile function. We have the same template, with the deferred promises, and when the condition is met, we resolve the promise. Cool. 
+
+And we link the body function (which is pretty much a callback function) to the loop function. And there we have it, a async loop. Give yourselves a pat on the back. 
