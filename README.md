@@ -340,8 +340,6 @@ Now one more thing. Let’s say we want to run all the functions at the same tim
 
 Well, async has another awesome function called `each`, which will call each of the functions immediately, without waiting for them to finish, but still preserve the callback functions associated. Let's take a look at our example. 
 
-http://jsfiddle.net/mLgzx196/8/
-
 ```javascript
 async.each([0,1,2,3,4,5], function(i, callback) {
     setTimeout(function(){ 
@@ -352,6 +350,8 @@ async.each([0,1,2,3,4,5], function(i, callback) {
     console.log('All files have been processed successfully');
 });
 ```
+
+http://jsfiddle.net/mLgzx196/8/
 
 Now let's take a look at a real life example of how we might use the async library. 
 
@@ -414,7 +414,7 @@ http://jsfiddle.net/mLgzx196/
  
 function one() {
     var deferred = Q.defer();
-    console.log("Starting one's's ajax");
+    console.log("Starting one's ajax");
     $.ajax( {
         url: 'http://ip.jsontest.com/',
         success: function() {
@@ -475,7 +475,7 @@ We can also <i>reject</i> promises. Let's check out an example.
 ```javascript
 function one() {
     var deferred = Q.defer();
-    console.log("Starting one's's ajax");
+    console.log("Starting one's ajax");
     $.ajax( {
         url: 'http://ip.jsontest.com/',
         success: function() {
