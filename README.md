@@ -239,7 +239,7 @@ Now let's show a loading gif, and then hide it when the data appears:
 	// when the page is loaded
 	$( document ).ready(function() {
 		$.get("https://api.github.com/repos/octokit/octokit.rb", function(data) {
-			$(“#loading-gif”).hide();
+			$("#loading-gif").hide();
 			$("#github-repo-name").text(data.full_name + " – " + data.description);
 			$("#github-repo-url").text(data.html_url);
 			$("#github-repo-url").attr("href", data.html_url);
