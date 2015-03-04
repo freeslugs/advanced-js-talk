@@ -5,8 +5,8 @@
 1. [Functions](#functions)  
   1. [Synchronous Functions](#sync)  
   2. [Asynchronous Functions & Callbacks](#async)  
-2. [Promises](#promises)  
-3. [Async Library](#library)  
+2. [Async Library](#library)  
+3. [Promises](#promises)  
  
 -------------------------
  
