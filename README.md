@@ -89,7 +89,7 @@ hello("this is a string");
 hello();
 ```
 
-<i>Fun fact:</i> This is an anonymous function. It is not named.
+<i>Fun fact:</i> The following function is an <b>anonymous function</b>. It is not named.
 
 ```javascript
 function() {
@@ -175,19 +175,13 @@ function getIP() {
 }
 ```
 
-function(data) {
-	var result = data.ip;
-	return result;
-}
-
-
 If we were to try it out, we'd see that it returns undefined. That’s because `$.get` is asynchronous, so let's try again using a callback function. 
 
 ```javascript
 function getIP(callback) {
 	$.get("http://ip.jsontest.com", function(data) {
 		var result = data.ip;
-		callback(result):
+		callback(result);
 	});
 }
 ```
